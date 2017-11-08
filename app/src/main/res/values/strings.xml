@@ -36,5 +36,10 @@
     <string name="drawer_about_long">About Us</string>
     <string name="delete">Delete</string>
     <string name="update">Update</string>
+    <string name="add_an_item">Add an Item</string>
+    <string name="enter_a_name">Enter a Name</string>
+    <string name="enter_a_description">Enter a Description</string>
+    <string name="enter_rating">Enter a Rating from 1.0 - 5.0</string>
+    <string name="btn_confirm">Confirm</string>
 
 </resources>
