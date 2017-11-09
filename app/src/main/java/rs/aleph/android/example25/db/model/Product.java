@@ -30,11 +30,12 @@ public class Product {
     @DatabaseField(columnName = FIELD_NAME_RATING)
     private float rating;
 
-    @DatabaseField(columnName = FIELD_NAME_CATEGORY)
-    private String categoty;
+    @DatabaseField(columnName = FIELD_NAME_CATEGORY,  foreign = true, foreignAutoRefresh = true)
+    private Category mCategory;
 
     @DatabaseField(columnName = FIELD_NAME_IMAGE)
     private String image;
+
 
     //ORMLite zahteva prazan konstuktur u klasama koje opisuju tabele u bazi!
     public Product() {
@@ -82,12 +83,12 @@ public class Product {
         this.image = image;
     }
 
-    public String getCategoty() {
-        return categoty;
+    public Category getmCategory() {
+        return mCategory;
     }
 
-    public void setCategoty(String categoty) {
-        this.categoty = categoty;
+    public void setmCategory(Category mCategory) {
+        this.mCategory = mCategory;
     }
 
     @Override
