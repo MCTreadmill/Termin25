@@ -31,7 +31,7 @@ public class Product {
     private float rating;
 
     @DatabaseField(columnName = FIELD_NAME_CATEGORY,  foreign = true, foreignAutoRefresh = true)
-    private Category mCategory;
+    private String mCategory;
 
     @DatabaseField(columnName = FIELD_NAME_IMAGE)
     private String image;
@@ -83,11 +83,11 @@ public class Product {
         this.image = image;
     }
 
-    public Category getmCategory() {
+    public String getmCategory() {
         return mCategory;
     }
 
-    public void setmCategory(Category mCategory) {
+    public void setmCategory(String mCategory) {
         this.mCategory = mCategory;
     }
 

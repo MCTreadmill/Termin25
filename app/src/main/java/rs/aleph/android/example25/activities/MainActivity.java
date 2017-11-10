@@ -1,5 +1,6 @@
 package rs.aleph.android.example25.activities;
 
+import android.app.Dialog;
 import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.content.res.Configuration;
@@ -15,9 +16,13 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.RatingBar;
 import android.widget.RelativeLayout;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.j256.ormlite.android.apptools.OpenHelperManager;
@@ -36,6 +41,8 @@ import rs.aleph.android.example25.fragments.DetailFragment;
 import rs.aleph.android.example25.fragments.ListFragment;
 import rs.aleph.android.example25.fragments.ListFragment.OnProductSelectedListener;
 import rs.aleph.android.example25.model.NavigationItem;
+import rs.aleph.android.example25.provider.CategoryProvider;
+import rs.aleph.android.example25.provider.ImageProvider;
 
 public class MainActivity extends AppCompatActivity implements OnProductSelectedListener {
 
@@ -152,7 +159,56 @@ public class MainActivity extends AppCompatActivity implements OnProductSelected
     //da bi dodali podatak u bazu, potrebno je da napravimo objekat klase
     //koji reprezentuje tabelu i popunimo podacima
     private void addItem(){
-        Product product = new Product();
+        Button confirm = (Button) dialog.findViewById(R.id.btn_dialog_confirm);
+        confirm.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                EditText etName = (EditText) dialog.findViewById(R.id.et_dialog_name);
+                EditText etDescription = (EditText) dialog.findViewById(R.id.et_dialog_description);
+
+                RatingBar rbRatingbar = (RatingBar) dialog.findViewById(R.id.rb_dialog_rating);
+
+                //EditText etRating = (EditText) dialog.findViewById(R.id.et_dialog_rating);
+
+                Spinner spImage = (Spinner) dialog.findViewById(R.id.sp_dialog_image);
+                List<String> images = ImageProvider.getImageNames();
+                ArrayAdapter<String> imageAdapter = new ArrayAdapter<String>(MainActivity.this,
+                        android.R.layout.simple_spinner_item, images);
+                spImage.setAdapter(imageAdapter);
+                Spinner spCategory = (Spinner) dialog.findViewById(R.id.sp_dialog_category);
+                List<String> categories = CategoryProvider.getCategoryNames();
+                ArrayAdapter<String> categoryAdapter = new ArrayAdapter<String>(MainActivity.this,
+                        android.R.layout.simple_spinner_item, categories);
+                spCategory.setAdapter(categoryAdapter);
+                /*
+                 Spinner category = (Spinner) getView().findViewById(R.id.sp_category);
+        List<String> categories = CategoryProvider.getCategoryNames();
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, categories);
+        category.setAdapter(adapter);
+        category.setSelection((int) FoodProvider.getFoodById(position).getCategory().getId());
+                 */
+
+                Product product = new Product();
+                product.setmName(etName.getText().toString());
+                product.setDescription(etDescription.getText().toString());
+                product.setRating(rbRatingbar.getRating());
+                product.setImage(spImage.getSelectedItem().toString());
+                product.setmCategory(spCategory.getSelectedItem().toString());
+
+                try {
+                    getDatabaseHelper().getProductDao().create(product);
+
+                    refresh();
+
+                    Toast.makeText(MainActivity.this, "Product inserted", Toast.LENGTH_SHORT).show();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+
+        /*Product product = new Product();
         product.setmName("Apple");
         product.setDescription("The apple tree is a deciduous tree in the rose family best known for its sweet, pomaceous fruit, the apple.");
         product.setRating(5.0f);
@@ -167,7 +223,7 @@ public class MainActivity extends AppCompatActivity implements OnProductSelected
             Toast.makeText(this, "Product inserted", Toast.LENGTH_SHORT).show();
         } catch (SQLException e) {
             e.printStackTrace();
-        }
+        }*/
     }
 
     @Override
@@ -183,6 +239,43 @@ public class MainActivity extends AppCompatActivity implements OnProductSelected
                 refresh();
                 break;
             case R.id.action_add:
+                final Dialog dialog = new Dialog(MainActivity.this);
+                dialog.setContentView(R.layout.adding_dialog);
+
+
+                /*
+                //na klik ok dugmeta preuzimamo sadrzaj teksutalnih polja
+                //i saljemo servisu
+                Button ok = (Button) dialog.findViewById(R.id.ok);
+                ok.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        EditText editTitle = (EditText) dialog.findViewById(R.id.title);
+                        EditText editcomment = (EditText) dialog.findViewById(R.id.comment);
+
+                        Intent commentIntent = new Intent(MainActivity.this, CommentService.class);
+                        commentIntent.putExtra("title", editTitle.getText().toString());
+                        commentIntent.putExtra("comment", editcomment.getText().toString());
+                        startService(commentIntent);
+                        dialog.dismiss();
+
+                    }
+                });
+
+                //na click cancel dugmeta samo ispiemo toast poruku
+                Button cancel = (Button) dialog.findViewById(R.id.cancel);
+                cancel.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Toast.makeText(MainActivity.this, "No comment", Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+                //prikazemo dijalog
+                dialog.show();
+
+                break;
+                 */
                 addItem();
                 break;
         }

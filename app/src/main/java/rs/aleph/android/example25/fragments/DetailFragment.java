@@ -121,7 +121,7 @@ public class DetailFragment extends Fragment implements AdapterView.OnItemSelect
         String[] data = getResources().getStringArray(R.array.category_names);
 
         for (int i=0;i<data.length;i++){
-            if (data[i].equalsIgnoreCase(product.getCategoty())){
+            if (data[i].equalsIgnoreCase(product.getmCategory())){
                 spinner.setSelection(i);
                 break;
             }
@@ -191,7 +191,7 @@ public class DetailFragment extends Fragment implements AdapterView.OnItemSelect
             product.setRating(ratingBar.getRating());
 
             Spinner category = (Spinner) getActivity().findViewById(R.id.category);
-            product.setCategoty(category.getSelectedItem().toString());
+            product.setmCategory(category.getSelectedItem().toString());
 
             try {
                 ((MainActivity) getActivity()).getDatabaseHelper().getProductDao().update(product);

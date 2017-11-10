@@ -10,6 +10,12 @@
     <string-array name="category_names">
         <item>Fruit</item>
         <item>Vegetables</item>
+        <item>Meat</item>
+        <item>Vegetarian</item>
+        <item>Vegan</item>
+        <item>Desert</item>
+        <item>Appetizer</item>
+        <item>Salad</item>
     </string-array>
 
     <string-array name="pref_syncConnectionTypes_entries">
@@ -24,6 +30,12 @@
         <item>10</item>
         <item>30</item>
         <item>60</item>
+    </string-array>
+
+    <string-array name="images_adapter">
+        <item>apples.jpg</item>
+        <item>bananas.jpg</item>
+        <item>oranges.jpg</item>
     </string-array>
 
 </resources>
